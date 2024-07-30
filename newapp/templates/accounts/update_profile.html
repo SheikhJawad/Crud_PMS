@@ -1,0 +1,40 @@
+{% extends 'accounts/main.html' %}
+
+{% block title %}{% if customer %}Update{% else %}Create{% endif %} Customer{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{% if customer %}Update{% else %}Create{% endif %} Customer</h1>
+    <form method="post" action="{% url 'user_profile_view' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name" 
+                   value="{% if customer %}{{ customer.first_name }}{% endif %}">
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name" 
+                   value="{% if customer %}{{ customer.last_name }}{% endif %}">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Email" 
+                   value="{% if customer %}{{ customer.email }}{% endif %}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input type="text" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number" 
+                   value="{% if customer %}{{ customer.phone_number }}{% endif %}">
+        </div>
+        <button type="submit" class="btn btn-primary">{% if customer %}Update{% else %}Create{% endif %}</button>
+        {% if customer %}
+            <a href="{% url 'customer_delete' customer.id %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

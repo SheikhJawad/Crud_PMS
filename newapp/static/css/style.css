@@ -1,0 +1,18 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    /* background: #000; */
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+footer {
+    margin-top: 20px;
+}
+
+h2 {
+    margin-top: 20px;
+}

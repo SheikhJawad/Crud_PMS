@@ -1,0 +1,47 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Place an Order</h2>
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="customer" class="form-label">Select Customer:</label>
+            <select name="customer_id" id="customer" class="form-select">
+                {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="product" class="form-label">Select Product:</label>
+            <select name="product_id" id="product" class="form-select">
+                {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }} - ${{ product.price }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+</div>
+
+<!-- Bootstrap CSS (if not already included in your base template) -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+<style>
+    .container {
+        max-width: 600px;
+    }
+    .form-label {
+        font-weight: bold;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

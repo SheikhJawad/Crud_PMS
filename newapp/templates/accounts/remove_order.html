@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h2>Remove Order</h2>
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to remove the order for {{ order.product.name }} by {{ order.customer.first_name }} {{ order.customer.last_name }}?</p>
+    <button type="submit">Yes, Remove</button>
+</form>
+{% endblock %}
