@@ -2,6 +2,7 @@
 from django.shortcuts import render ,redirect,get_object_or_404,HttpResponse
 from django.contrib import messages
 from .models import Customer,Product,Order
+from django.db.models import Sum, F, FloatField
 
 
 
@@ -15,11 +16,13 @@ def dashboard(request):
     total_orders = orders.count()
     pending_orders = orders.filter(status='PENDING').count()
     delivered_orders = orders.filter(status='DELIVERED').count()
+    cancelled_orders = Order.objects.filter(status='CANCELLED').count()  
 
     context = {
         'total_orders': total_orders,
         'pending_orders': pending_orders,
         'delivered_orders': delivered_orders,
+        'cancelled_orders': cancelled_orders, 
         'orders': orders
     }
     return render(request, 'accounts/dashboard.html', context)
@@ -121,12 +124,23 @@ def place_order(request):
     if request.method == 'POST':
         customer_id = request.POST.get('customer_id')
         product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))  # Default to 1 if quantity is not provided
+        total_bill = float(request.POST.get('total_bill', 0.0))
+
         customer = get_object_or_404(Customer, id=customer_id)
         product = get_object_or_404(Product, id=product_id)
-        order = Order(customer=customer, product=product)
+
+       
+        order = Order(
+            customer=customer,
+            product=product,
+            quantity=quantity,
+            total_bill=total_bill
+        )
         order.save()
+
         messages.success(request, 'Order placed successfully!')
-        return redirect('order_list')  
+        return redirect('order_list')
 
     customers = Customer.objects.all()
     products = Product.objects.all()
@@ -152,7 +166,7 @@ def remove_order(request, order_id):
         order.delete()
         messages.success(request, 'Order removed successfully!')
         return redirect('order_list')  
-    return render(request, 'remove_order.html', {'order': order})
+    return render(request, 'accounts/remove_order.html', {'order': order})
 
 def order_list(request):
     orders = Order.objects.all()

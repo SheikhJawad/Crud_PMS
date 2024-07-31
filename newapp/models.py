@@ -23,6 +23,8 @@ class Product(models.Model):
         return self.name
 
 class Order(models.Model):
+    quantity = models.PositiveIntegerField(default=1)  # Default to 1 if not provided
+    total_bill = models.FloatField(default=0.0)
     STATUS_CHOICES = [
         ('PENDING', 'Pending'),
         ('DELIVERED', 'Delivered'),
