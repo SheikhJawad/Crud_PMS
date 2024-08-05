@@ -3,7 +3,10 @@ from django.shortcuts import render ,redirect,get_object_or_404,HttpResponse
 from django.contrib import messages
 from .models import Customer,Product,Order
 from django.db.models import Sum, F, FloatField
+from django.views import View
 
+# class message(View)
+#  def
 
 
 def dashboard(request):
